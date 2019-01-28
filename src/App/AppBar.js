@@ -39,7 +39,7 @@ function ControlButton({name}) {
 
 export default function () {
     return <Bar>
-        <Logo>CryptoDash</Logo>
+        <Logo>Cryo Dashboard</Logo>
         <div/>
         <ControlButton name="dashboard"/>
         <ControlButton name="settings"/>
