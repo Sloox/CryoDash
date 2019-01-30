@@ -4,6 +4,7 @@ import {SelectableTile} from "../SharedPages/Tile";
 import {fontSize3, fontSizeBig, greenBoxShadow} from "../SharedPages/Styles";
 import {CoinHeaderGridStyled} from "../Settings/CoinHeaderGrid";
 import {AppContext} from "../App/AppProvider";
+import ReactTooltip from 'react-tooltip'
 
 const JustifyRight = styled.div`
     justify-self: right;
@@ -46,9 +47,10 @@ const PriceTileStyled = styled(SelectableTile)`
 function ChangePercent({data}) {
     return (
         <JustifyRight>
-            <ColorChangePercent red={data.CHANGEPCT24HOUR < 0}>
+            <ColorChangePercent data-tip="24 Hour change"  red={data.CHANGEPCT24HOUR < 0}>
                 {numberFormater(data.CHANGEPCT24HOUR)}%
             </ColorChangePercent>
+            <ReactTooltip place="top" type="info" effect="solid"/>
         </JustifyRight>
     );
 }
@@ -83,12 +85,12 @@ export default function ({price, index}) {
     let TileClass = index < 5 ? PriceTile : PriceTileCompact;
     return (
         <AppContext.Consumer>
-            {({currentFavorite, setCurrentFavorite}) =>
+            {({currentFavorite, setCurrentFavorite}) =>(
                 <TileClass sym={sym} data={data} currentFavorite={currentFavorite === sym}
                            setCurrentFavorite={() => setCurrentFavorite(sym)}>
 
                 </TileClass>
-            }
+            )}
         </AppContext.Consumer>
     );
 }

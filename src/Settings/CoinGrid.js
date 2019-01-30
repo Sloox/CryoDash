@@ -11,8 +11,13 @@ export const CoinGridStyled = styled.div`
     margin-top: 40px;
 `;
 
+const MAX_COINS_TO_SHOW_DEFAULT = 30;
+const MAX_COINS_TO_SHOW_FILTERED = 100;
+
 function getLowerSectionCoins(coinList, filteredCoins) {
-    return (filteredCoins && Object.keys(filteredCoins)) || Object.keys(coinList).slice(0, 100);
+    if (filteredCoins) {
+        return Object.keys(filteredCoins).slice(0, MAX_COINS_TO_SHOW_FILTERED);
+    } else return Object.keys(coinList).slice(0, MAX_COINS_TO_SHOW_DEFAULT);
 }
 
 function getCointsToDisplay(coinList, topSection, favorites, filteredCoins) { //show only first 100

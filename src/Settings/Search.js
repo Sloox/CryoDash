@@ -33,18 +33,19 @@ const handleFilter = _.debounce((inputVal, coinList, setFilterCoins) => {
     //at this point we have both symbols & coinnames when we search we need to know the differences to map back to the original datastructure
     //we use pickBy --> iterate over a list and pick objects based off a truthy function call
     //here we extract the coinName and the syMKey and see if it is in the fuzzyResults
-    let filteredCoins = _.pickBy(coinList, (result, symKey) => {
-        let coinName = result.CoinName;
-        return (_.includes(fuzzyResults, symKey) || _.includes(fuzzyResults, coinName));
+    let filteredCoins = _.pickBy(coinList, (value, key) => {
+        let coinName = value.CoinName;
+        return (_.includes(fuzzyResults, key) || _.includes(fuzzyResults, coinName));
     });
     setFilterCoins(filteredCoins);
-}, 250);
+}, 500);
 
 function filterCoins(e, setFilteredCoins, coinList) {
     let inputVal = e.target.value; //get event from input text
     //debounce is to prevent the user from firing off too many events in the app too quickly
-    if (!inputVal) {
-        setFilteredCoins(null); //go back to first 100 coins
+    if (_.isEmpty(inputVal)) {
+        setFilteredCoins(null); //go back to first few coins
+        return;
     }
     handleFilter(inputVal, coinList, setFilteredCoins)
 }

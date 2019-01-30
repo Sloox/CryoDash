@@ -7,6 +7,7 @@ import CoinImage from '../SharedPages/CoinImage';
 const SpotlightName = styled.h2`
     text-align: center;
 `;
+
 export default function () {
     return (
         <AppContext.Consumer>

@@ -13,7 +13,8 @@ const ConfirmButtonStyled = styled.div`
        ${greenBoxShadow} 
     }
     ${props => props.confirmDisabled && css`
-           
+           pointer-events : none;
+           opacity: 0.4;
     `}
 `;
 
@@ -26,9 +27,9 @@ export const CenterDiv = styled.div`
 export default function () {
     return (
         <AppContext.Consumer>
-            {({confirmFavourites, confirmDisabled}) =>
+            {({confirmFavourites, favorites}) =>
                 <CenterDiv>
-                    <ConfirmButtonStyled onClick={confirmFavourites} confirmDisabled={confirmDisabled}>
+                    <ConfirmButtonStyled onClick={confirmFavourites} confirmDisabled={!favorites || favorites.length === 0}>
                         Confirm Favourites
                     </ConfirmButtonStyled>
                 </CenterDiv>}

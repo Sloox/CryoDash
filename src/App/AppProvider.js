@@ -7,7 +7,7 @@ const cc = require('cryptocompare');
 
 export const AppContext = React.createContext();
 
-const MAX_FAVORITES = 10;
+const MAX_FAVORITES = 15;
 const TIME_UNITS = 20;
 
 export class AppProvider extends React.Component {
@@ -53,8 +53,10 @@ export class AppProvider extends React.Component {
     fetchHistorical = async () => {
         if (this.state.firstVisit) return;
         let results = await this.historical();
-        let historical = [{name: this.state.currentFavorite, data: results.map((val, index) => [moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(), val.USD])
-            }
+        let historical = [{
+            name: this.state.currentFavorite,
+            data: results.map((val, index) => [moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(), val.USD])
+        }
         ];
         this.setState({historical});
     };
@@ -73,6 +75,11 @@ export class AppProvider extends React.Component {
 
     fetchCoins = async () => { //spawn a new thread to fetch coins
         let coinList = (await cc.coinList()).Data; //inside this thread block and wait for this command to finish & also dont want other crap just the data
+        //lets filter on coins that are actually trading
+        coinList = _.pickBy(coinList, (value, key) => {
+            return value && value.IsTrading;
+        });
+
         this.setState({coinList});
     };
 
